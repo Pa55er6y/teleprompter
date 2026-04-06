@@ -2,6 +2,8 @@
 
 > A simple, responsive web-based teleprompter for public speakers, presenters, and content creators. Perfect for PC, tablets, phones, and other screen ratios / sizes.
 
+Note: 99% of the content in this repo was written by Copilot.
+
 ---
 
 ## ✨ Features
@@ -24,28 +26,9 @@
 
 ## 🚀 Getting Started
 
-### Installation
-
-Simply clone this repository and open it in a web browser:
-
-```bash
-git clone https://github.com/yourusername/teleprompter.git
-cd teleprompter
-```
-
-Then open `index.html` in your browser, or serve with a local HTTP server:
-
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js (with npx)
-npx http-server
-```
-
 ### Quick Start
 
-1. **Visit the app**: Open your browser to `index.html` (or `http://localhost:8000`)
+1. **Visit the app**: Open the app in your browser [https://tp.pa55er6y.com](https://tp.pa55er6y.com)
 2. **Enter your script**: Click on the text area and paste or type your script
 3. **Adjust settings**: Use the control buttons to customize font size, speed, alignment, and fonts
 4. **Start scrolling**: Click ▶️ or press Spacebar to begin auto-scrolling
@@ -67,15 +50,15 @@ For a native app-like experience on iPad:
 
 ### Button Controls (Top Bar)
 
-| Button | Function | Icon |
-|--------|----------|------|
-| **Align** | Toggle between center and left text alignment | ⬅️/➡️ |
-| **Flip H** | Mirror text horizontally (left-right) | ↔️ |
-| **Flip V** | Mirror text vertically (up-down) | ⬍ |
-| **Font** | Cycle through Verdana → Georgia → Arial | Ⓐ |
-| **Play** | Start automatic scrolling | ▶️ |
-| **Pause** | Stop automatic scrolling | ⏸️ |
-| **Reset** | Clear content and restore default settings | 🔄 |
+| Button | Function |
+|--------|----------|
+| **Align** | Toggle between center and left text alignment | 
+| **Flip H** | Mirror text horizontally (left-right) | 
+| **Flip V** | Mirror text vertically (up-down) | 
+| **Font** | Cycle through Verdana → Georgia → Arial | 
+| **Play** | Start automatic scrolling | 
+| **Pause** | Stop automatic scrolling | 
+| **Reset** | Clear content and restore default settings | 
 
 ### Adjustment Controls
 

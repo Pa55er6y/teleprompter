@@ -203,7 +203,7 @@ input[type="number"] {
 .prompter-text {
     font-size: 48px;
     line-height: 1.6;
-    max-width: 90%;
+    /* max-width: 90%; */
     text-align: center;
     white-space: pre-wrap;
     word-wrap: break-word;
