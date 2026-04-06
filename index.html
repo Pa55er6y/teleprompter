@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple, responsive web-based teleprompter app">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Teleprompter">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <title>Teleprompter</title>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <button class="btn" id="toggleAlignBtn" title="Align left" aria-label="Align left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 7h12v2H6zM3 3h18v2H3zm0 8h18v2H3zm3 4h12v2H6zm-3 4h18v2H3z"></path>
+                </svg>
+            </button>
+            <button class="btn" id="toggleFlipLRBtn" title="Flip horizontal"><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+fill="currentColor" viewBox="0 0 24 24" >
+<!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+<path d="m20.76,7.06l-5.1,4.37c-.35.3-.35.84,0,1.14l5.1,4.37c.49.42,1.24.07,1.24-.57V7.63c0-.64-.75-.99-1.24-.57Z"/><path d="m3.24,16.94l5.1-4.37c.35-.3.35-.84,0-1.14L3.24,7.06c-.49-.42-1.24-.07-1.24.57v8.74c0,.64.75.99,1.24.57Z"/><path d="M11 2H13V22H11z"/>
+</svg></button>
+            <button class="btn" id="toggleFlipUDBtn" title="Flip vertical"><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+fill="currentColor" viewBox="0 0 24 24" >
+<!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+<path d="m12.57,15.66c-.3-.35-.84-.35-1.14,0l-4.37,5.1c-.42.49-.07,1.24.57,1.24h8.74c.64,0,.99-.75.57-1.24l-4.37-5.1Z"/><path d="m7.06,3.24l4.37,5.1c.3.35.84.35,1.14,0l4.37-5.1c.42-.49.07-1.24-.57-1.24H7.63c-.64,0-.99.75-.57,1.24Z"/><path d="M2 11H22V13H2z"/>
+</svg></button>
+            <button class="btn" id="toggleFontBtn" title="Switch font family"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10.44 6.67C10.3 6.27 9.92 6 9.5 6h-1c-.43 0-.81.27-.94.67L3.64 18h2.12l1.04-3h4.42l1.04 3h2.12L10.46 6.67ZM7.48 13 9 8.61 10.52 13zM13 6h8v2h-8zm2 4h6v2h-6zm2 4h4v2h-4z"></path>
+            </svg></button>
+            
+            <div class="control-group">
+                <label class="control-label">Size:</label>
+                <input type="range" id="fontSizeSlider" min="18" max="160" value="48">
+                <input type="number" id="fontSizeInput" min="18" max="160" value="48">
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Scroll Speed:</label>
+                <input type="range" id="scrollSpeedSlider" min="0" max="5" value="1" step="0.25">
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Margin:</label>
+                <input type="range" id="scrollPaddingSlider" min="0" max="200" value="20">
+                <input type="number" id="scrollPaddingInput" min="0" max="200" value="20">
+            </div>
+
+            <button class="btn" id="autoScrollBtn" title="Auto scroll"><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+fill="currentColor" viewBox="0 0 24 24" >
+<!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+<path d="M6.51 18.87a1 1 0 0 0 1-.01l10-6c.3-.18.49-.51.49-.86s-.18-.68-.49-.86l-10-6a.99.99 0 0 0-1.01-.01c-.31.18-.51.51-.51.87v12c0 .36.19.69.51.87ZM8 7.77 15.06 12 8 16.23z"></path>
+</svg></button>
+            <button class="btn" id="pauseScrollBtn" style="display:none;" title="Pause"><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+fill="currentColor" viewBox="0 0 24 24" >
+<!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+<path d="M6 18h4c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1H6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1M7 8h2v8H7zm7-2c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h4c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1zm3 10h-2V8h2z"></path>
+</svg></button>
+            <button class="btn btn-danger" id="resetBtn" title="Reset"><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+fill="currentColor" viewBox="0 0 24 24" >
+<!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+<path d="M19.07 4.93a9.9 9.9 0 0 0-3.18-2.14 10.12 10.12 0 0 0-7.79 0c-1.19.5-2.26 1.23-3.18 2.14S3.28 6.92 2.78 8.11A9.95 9.95 0 0 0 1.99 12h2c0-1.08.21-2.13.63-3.11.4-.95.98-1.81 1.72-2.54.73-.74 1.59-1.31 2.54-1.71 1.97-.83 4.26-.83 6.23 0 .95.4 1.81.98 2.54 1.72.17.17.33.34.48.52L16 9.01h6V3l-2.45 2.45c-.15-.18-.31-.36-.48-.52m.3 10.18c-.4.95-.98 1.81-1.72 2.54-.73.74-1.59 1.31-2.54 1.71-1.97.83-4.26.83-6.23 0-.95-.4-1.81-.98-2.54-1.72-.17-.17-.33-.34-.48-.52l2.13-2.13H2v6l2.45-2.45c.15.18.31.36.48.52.92.92 1.99 1.64 3.18 2.14 1.23.52 2.54.79 3.89.79s2.66-.26 3.89-.79c1.19-.5 2.26-1.23 3.18-2.14s1.64-1.99 2.14-3.18c.52-1.23.79-2.54.79-3.89h-2c0 1.08-.21 2.13-.63 3.11Z"></path>
+</svg></button>
+        </div>
+
+        <div class="main-content split-view">
+            <div class="prompter-panel" id="prompterPanel">
+                <div class="prompter-scroll" id="prompterScroll">
+                    <div class="prompter-text" id="prompterText" contenteditable="true">Tap to add your script text</div>
+                </div>
+                <div class="scroll-indicator" id="scrollIndicator" style="display:none;">Auto-scrolling...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
