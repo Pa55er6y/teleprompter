@@ -292,18 +292,12 @@ input[type="number"] {
         font-size: 36px;
     }
 
-    .controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
     .control-group {
-        flex-direction: column;
         width: 100%;
     }
 
     input[type="range"] {
-        width: 100%;
+        width: 60%;
     }
 
     .split-view .editor-panel {
