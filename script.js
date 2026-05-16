@@ -210,30 +210,59 @@ function updateFontFamily() {
     localStorage.setItem(FONT_FAMILY_KEY, state.fontFamily);
 }
 
-let autoScrollInterval;
+let autoScrollAnimationFrame;
+let lastAutoScrollTimestamp = 0;
+let autoScrollRemainder = 0;
+
+function runAutoScroll(timestamp) {
+    if (!state.autoScrolling) return;
+
+    if (!lastAutoScrollTimestamp) {
+        lastAutoScrollTimestamp = timestamp;
+    }
+
+    const elapsed = timestamp - lastAutoScrollTimestamp;
+    lastAutoScrollTimestamp = timestamp;
+
+    const speed = Number.isFinite(state.scrollSpeed) ? Math.max(0, state.scrollSpeed) : 0.5;
+    const pixelsPerSecond = speed * 120;
+    const maxScrollTop = prompterScroll.scrollHeight - prompterScroll.clientHeight;
+
+    if (maxScrollTop <= 0 || prompterScroll.scrollTop >= maxScrollTop) {
+        stopAutoScroll();
+        return;
+    }
+
+    const desiredScroll = (elapsed * pixelsPerSecond / 1000) + autoScrollRemainder;
+    const pixelsToScroll = Math.floor(desiredScroll);
+    autoScrollRemainder = desiredScroll - pixelsToScroll;
+
+    if (pixelsToScroll > 0) {
+        prompterScroll.scrollTop = Math.min(maxScrollTop, prompterScroll.scrollTop + pixelsToScroll);
+    }
+
+    autoScrollAnimationFrame = requestAnimationFrame(runAutoScroll);
+}
 
 function startAutoScroll() {
     if (state.autoScrolling) return;
+    prompterText.blur();
     state.autoScrolling = true;
+    lastAutoScrollTimestamp = 0;
+    autoScrollRemainder = 0;
     autoScrollBtn.style.display = 'none';
     pauseScrollBtn.style.display = 'block';
     scrollIndicator.style.display = 'block';
     prompterScroll.parentElement.classList.add('auto-scrolling');
 
-    const baseSpeed = state.scrollSpeed || 0.5;
-    const pixelsPerFrame = baseSpeed * 2; // Adjust multiplier for speed feel
-
-    autoScrollInterval = setInterval(() => {
-        prompterScroll.scrollTop += pixelsPerFrame;
-        if (prompterScroll.scrollTop >= prompterScroll.scrollHeight - prompterScroll.clientHeight) {
-            stopAutoScroll();
-        }
-    }, 16); // ~60fps
+    autoScrollAnimationFrame = requestAnimationFrame(runAutoScroll);
 }
 
 function stopAutoScroll() {
     state.autoScrolling = false;
-    clearInterval(autoScrollInterval);
+    cancelAnimationFrame(autoScrollAnimationFrame);
+    lastAutoScrollTimestamp = 0;
+    autoScrollRemainder = 0;
     autoScrollBtn.style.display = 'block';
     pauseScrollBtn.style.display = 'none';
     scrollIndicator.style.display = 'none';

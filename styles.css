@@ -125,6 +125,7 @@ input[type="number"] {
     flex: 1;
     display: flex;
     overflow: hidden;
+    min-height: 0;
 }
 
 /* Editor mode - removed */
@@ -165,6 +166,7 @@ input[type="number"] {
     background: #000;
     position: relative;
     overflow: hidden;
+    min-height: 0;
 }
 
 .prompter-panel.hidden {
@@ -176,10 +178,17 @@ input[type="number"] {
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     padding: 40px 20px;
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    min-height: 0;
+    touch-action: pan-y;
+}
+
+.auto-scrolling .prompter-scroll {
+    scroll-behavior: auto;
 }
 
 /* Custom scrollbar */
