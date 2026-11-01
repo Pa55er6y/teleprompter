@@ -191,6 +191,51 @@ input[type="number"] {
     scroll-behavior: auto;
 }
 
+.voice-status {
+    padding: 8px 16px;
+    background: #142537;
+    color: #d2e5f7;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.voice-status.error { color: #ffbcab; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+
+.voice-following .prompter-scroll {
+    display: block;
+    scroll-behavior: auto;
+}
+
+.voice-following .prompter-text { padding-block: var(--voice-space); }
+.voice-word {
+    display: inline;
+    font: inherit;
+    line-height: inherit;
+    color: inherit;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.voice-current { background: #185346; box-shadow: 0 2px 0 #72e1bd; }
+.voice-word:focus-visible { outline: 2px solid #72e1bd; outline-offset: 2px; }
+.voice-reading-guide { display: none; }
+.voice-following .voice-reading-guide {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 35%;
+    left: 8px;
+    width: 13px;
+    height: 3px;
+    background: #72e1bd;
+    pointer-events: none;
+}
+
 /* Custom scrollbar */
 .prompter-scroll::-webkit-scrollbar {
     width: 8px;

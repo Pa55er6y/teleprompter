@@ -46,6 +46,39 @@ For a native app-like experience on iPad:
 
 ---
 
+## Follow my voice
+
+On the main teleprompter page, tap **Follow my voice**, allow microphone and speech access, and read your English script aloud. Your current word is highlighted and kept near the green reading marker. Recognition uses the same matching logic as the Voice test page, including interim results as they arrive; a short recognition delay is normal.
+
+- Tap **Stop listening**, the **Pause** button, or press **Escape** to stop and resume editing. Your original text and formatting are restored.
+- To change your reading position, tap the desired word while voice following is active, then tap **Follow my voice** again.
+- Voice following and fixed-speed scrolling run one at a time. The speed slider controls fixed-speed scrolling.
+- Voice following stops at the end of the script and when you leave or hide the page. It never starts the microphone automatically when opening or reloading the app.
+- Use Safari over HTTPS on iPad. The recognizer uses your browser's English locale, falling back to Australian English when your browser locale is not English. The **Voice test** page remains available for recognition diagnostics and dialect selection.
+
+## Voice-following test (experimental)
+
+The separate [Voice test page](voice-test.html) is preloaded with the password-storage paragraph. It listens for English speech, matches recent phrases against the script, highlights the current word, and scrolls to keep your place visible. It does not replace your saved teleprompter script.
+
+### Test on an iPad
+
+1. Serve these updated files on an **HTTPS** website, then open `voice-test.html` in Safari. A plain HTTP address on your home network is insufficient for microphone access. Start in Safari before trying a Home Screen shortcut.
+2. Choose your English dialect and a readable text size. Tap **Follow my voice** and allow microphone and speech access. If Safari cannot start recognition, check that Siri is enabled.
+3. Read “Have you ever wondered how passwords are stored on the server?” and pause for five seconds. The highlight and scrolling should hold after any brief scrolling animation finishes.
+4. Continue with “In this video…” slowly, then speed up. Your current phrase should remain visible near the green marker once scrolling is needed. Scrolling starts only when the text reaches the marker.
+5. Say “I am taking a quick break from the script.” The reading position should hold. Return to the next sentence and check that tracking resumes.
+6. Finish the paragraph. Inspect **What the iPad hears**, especially the words “hashing”, “salts”, and “peppers”. Listening stops at the end of the script.
+7. To recover manually, tap **Stop listening**, tap the word you want to read next, then tap **Follow my voice**. **Back to start** stops listening and resets the test.
+8. Repeat with your normal teleprompter, speaking distance, and microphone. Then use **Use another script** for a five-minute test, including long pauses. Check that returning from another app requires an explicit tap to resume listening.
+
+If testing fails, report the iPad/iPadOS version, status message, recognised phrase, and highlighted word. Recognition accuracy and session continuity still need testing on the actual iPad; desktop tests use simulated recognition results. No separate speech-provider account or API key is required for this prototype.
+
+### Local checks
+
+Run `node --test tests/voice-matcher.test.mjs` with Node.js 20 or newer. For a desktop microphone test, run `python -m http.server 8000 --bind 127.0.0.1` and open `http://localhost:8000/voice-test.html` in a browser that supports speech recognition. This loopback address is for the same computer; use HTTPS hosting for an iPad test.
+
+---
+
 ## 🎮 Controls
 
 ### Button Controls (Top Bar)
@@ -155,6 +188,8 @@ teleprompter/
 ---
 
 ## 🔒 Privacy
+
+The following applies with voice following turned off. **Follow my voice** and the optional Voice test page use your browser's speech recognition, which may send microphone audio to the browser's speech service. This app does not record or store that audio or the recognised transcript. Voice following asks you to start listening explicitly, and stops when you leave or hide the page.
 
 ✅ **Your data stays private:**
 - All information is stored **only on your device** in localStorage

@@ -1,3 +1,7 @@
+import { VoiceFollower } from './voice-follow.mjs';
+
+let voiceFollower = null;
+
 // State management
 const state = {
     isLeftAlign: false,
@@ -85,7 +89,7 @@ function init() {
     toggleFlipUDBtn.addEventListener('click', toggleFlipUD);
     toggleFontBtn.addEventListener('click', toggleFontFamily);
     autoScrollBtn.addEventListener('click', startAutoScroll);
-    pauseScrollBtn.addEventListener('click', stopAutoScroll);
+    pauseScrollBtn.addEventListener('click', stopPlayback);
     resetBtn.addEventListener('click', resetApp);
     fontSizeSlider.addEventListener('input', handleFontSizeChange);
     fontSizeInput.addEventListener('input', handleFontSizeChange);
@@ -93,13 +97,23 @@ function init() {
     scrollPaddingSlider.addEventListener('input', handleScrollPaddingChange);
     scrollPaddingInput.addEventListener('input', handleScrollPaddingChange);
 
+    voiceFollower = new VoiceFollower({
+        text: prompterText,
+        scroller: prompterScroll,
+        panel: prompterPanel,
+        button: document.getElementById('followVoiceBtn'),
+        status: document.getElementById('voiceStatus'),
+        onStart: stopAutoScroll,
+        onChange: updatePlaybackControls
+    });
+
     // Keyboard shortcuts
     document.addEventListener('keydown', handleKeyboard);
 }
 
 // Event handlers
 function handleTextInput() {
-    localStorage.setItem(STORAGE_KEY, prompterText.textContent);
+    localStorage.setItem(STORAGE_KEY, prompterText.innerText);
 }
 
 function toggleAlignment() {
@@ -122,6 +136,7 @@ function updateAlignment() {
         toggleAlignBtn.title = 'Align left';
         toggleAlignBtn.setAttribute('aria-label', 'Align left');
     }
+    voiceFollower?.refreshLayout();
 }
 
 function toggleFlipLR() {
@@ -138,6 +153,7 @@ function updateFlipLR() {
         prompterText.classList.remove('flip-lr');
         toggleFlipLRBtn.classList.remove('btn-primary');
     }
+    voiceFollower?.refreshLayout();
 }
 
 function toggleFlipUD() {
@@ -154,6 +170,7 @@ function updateFlipUD() {
         prompterText.classList.remove('flip-ud');
         toggleFlipUDBtn.classList.remove('btn-primary');
     }
+    voiceFollower?.refreshLayout();
 }
 
 function handleFontSizeChange(e) {
@@ -167,6 +184,7 @@ function handleFontSizeChange(e) {
 function updateFontSize() {
     prompterText.style.fontSize = state.fontSize + 'px';
     localStorage.setItem(FONT_SIZE_KEY, state.fontSize);
+    voiceFollower?.refreshLayout();
 }
 
 function handleScrollSpeedChange(e) {
@@ -195,6 +213,7 @@ function updateScrollPadding() {
     scrollPaddingInput.value = paddingValue;
     prompterScroll.style.padding = `40px ${paddingValue}px`;
     localStorage.setItem(SCROLL_PADDING_KEY, String(paddingValue));
+    voiceFollower?.refreshLayout();
 }
 
 function toggleFontFamily() {
@@ -208,6 +227,7 @@ function updateFontFamily() {
     prompterText.style.fontFamily = state.fontFamily;
     toggleFontBtn.title = `Font: ${state.fontFamily}`;
     localStorage.setItem(FONT_FAMILY_KEY, state.fontFamily);
+    voiceFollower?.refreshLayout();
 }
 
 let autoScrollAnimationFrame;
@@ -246,12 +266,12 @@ function runAutoScroll(timestamp) {
 
 function startAutoScroll() {
     if (state.autoScrolling) return;
+    voiceFollower?.stop('');
     prompterText.blur();
     state.autoScrolling = true;
     lastAutoScrollTimestamp = 0;
     autoScrollRemainder = 0;
-    autoScrollBtn.style.display = 'none';
-    pauseScrollBtn.style.display = 'block';
+    updatePlaybackControls();
     scrollIndicator.style.display = 'block';
     prompterScroll.parentElement.classList.add('auto-scrolling');
 
@@ -263,14 +283,27 @@ function stopAutoScroll() {
     cancelAnimationFrame(autoScrollAnimationFrame);
     lastAutoScrollTimestamp = 0;
     autoScrollRemainder = 0;
-    autoScrollBtn.style.display = 'block';
-    pauseScrollBtn.style.display = 'none';
+    updatePlaybackControls();
     scrollIndicator.style.display = 'none';
     prompterScroll.parentElement.classList.remove('auto-scrolling');
 }
 
+function updatePlaybackControls() {
+    const playing = state.autoScrolling || voiceFollower?.active;
+    autoScrollBtn.style.display = playing ? 'none' : 'block';
+    pauseScrollBtn.style.display = playing ? 'block' : 'none';
+}
+
+function stopPlayback() {
+    voiceFollower?.stop();
+    stopAutoScroll();
+}
+
 function resetApp() {
     if (confirm('Reset all content and settings?')) {
+        stopPlayback();
+        voiceFollower?.reset();
+        document.getElementById('voiceStatus').hidden = true;
         localStorage.clear();
         prompterText.textContent = 'Tap to add your script text';
         state.fontSize = 48;
@@ -294,11 +327,17 @@ function resetApp() {
 }
 
 function handleKeyboard(e) {
+    if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    if (e.code === 'Escape') {
+        stopPlayback();
+        return;
+    }
     // Spacebar to toggle auto-scroll
-    if (e.code === 'Space' && !prompterText.matches(':focus')) {
+    if (e.code === 'Space' && !e.target.closest('button, a')) {
         e.preventDefault();
-        if (state.autoScrolling) {
-            stopAutoScroll();
+        if (state.autoScrolling || voiceFollower?.active) {
+            stopPlayback();
         } else {
             startAutoScroll();
         }
