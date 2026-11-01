@@ -46,6 +46,16 @@ For a native app-like experience on iPad:
 
 ---
 
+## Full screen and keeping the screen awake
+
+- Tap **Full screen** to hide Safari's address and tab bars while reading. Tap **Exit full screen** to return. Safari on iPad supports the standard Fullscreen API from iPadOS 16.4. If the browser cannot enter fullscreen, the app shows instructions for opening it from the Home Screen instead.
+- The script scrolls inside a fixed panel, so Safari's usual page-scroll bar collapsing can behave differently. Full screen explicitly requests the extra space. The app also uses dynamic viewport height to fit when Safari's visible area changes.
+- The app automatically requests that the screen stay awake while its tab is visible, including during pauses and manual reading. **Screen awake** means that the device granted the request. Tap it to allow normal sleep; tap **Keep awake** to enable it again.
+- The wake lock is released when the page is hidden or left, and requested again when you return, unless you turned it off. The device can decline or release the lock, for example in power-saving conditions; **Retry keep awake** means that the screen may sleep.
+- Wake locks require HTTPS and browser support. Safari added this API in iPadOS 16.4; support in Home Screen web apps arrived later, in iPadOS 18.4. Unsupported browsers show **Keep awake unavailable**. These controls do not change the iPad's Auto-Lock setting.
+
+To test on your iPad, open the updated main page in Safari, tap **Full screen**, check that **Screen awake** appears, and leave it untouched for longer than your normal Auto-Lock interval. Switch to another tab or app and return: the wake lock should be requested again. Actual Safari browser-bar and physical screen-lock behavior must be checked on the iPad; local tests verify API handling and layout.
+
 ## Follow my voice
 
 On the main teleprompter page, tap **Follow my voice**, allow microphone and speech access, and read your English script aloud. Your current word is highlighted and kept near the green reading marker. Recognition uses the same matching logic as the Voice test page, including interim results as they arrive; a short recognition delay is normal.
@@ -91,6 +101,8 @@ Run `node --test tests/voice-matcher.test.mjs` with Node.js 20 or newer. For a d
 | **Font** | Cycle through Verdana → Georgia → Arial | 
 | **Play** | Start automatic scrolling | 
 | **Pause** | Stop automatic scrolling | 
+| **Full screen** | Hide browser bars; tap again to exit |
+| **Screen awake / Keep awake** | Show and control screen wake-lock status |
 | **Reset** | Clear content and restore default settings | 
 
 ### Adjustment Controls

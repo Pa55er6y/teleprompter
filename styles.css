@@ -23,6 +23,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: 100dvh;
     background: #000;
 }
 
@@ -191,7 +192,7 @@ input[type="number"] {
     scroll-behavior: auto;
 }
 
-.voice-status {
+.voice-status, .display-status {
     padding: 8px 16px;
     background: #142537;
     color: #d2e5f7;
@@ -200,6 +201,7 @@ input[type="number"] {
 }
 
 .voice-status.error { color: #ffbcab; }
+.display-status { color: #ffdeb2; }
 .btn:disabled { opacity: 0.5; cursor: default; }
 
 .voice-following .prompter-scroll {

@@ -16,6 +16,8 @@
         <div class="controls">
             <a class="btn" href="voice-test.html" style="text-decoration:none;">Voice test</a>
             <button class="btn" id="followVoiceBtn" type="button" aria-pressed="false" aria-describedby="voiceStatus" title="Follow your spoken English script">Follow my voice</button>
+            <button class="btn" id="fullscreenBtn" type="button" aria-pressed="false" title="Hide the browser bars and use the full screen">Full screen</button>
+            <button class="btn" id="keepAwakeBtn" type="button" aria-pressed="false" title="Keep the screen awake while this page is visible">Keep awake</button>
             <button class="btn" id="toggleAlignBtn" title="Align left" aria-label="Align left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6 7h12v2H6zM3 3h18v2H3zm0 8h18v2H3zm3 4h12v2H6zm-3 4h18v2H3z"></path>
@@ -70,6 +72,7 @@ fill="currentColor" viewBox="0 0 24 24" >
         </div>
 
         <p class="voice-status" id="voiceStatus" role="status" hidden></p>
+        <p class="display-status" id="displayStatus" role="status" hidden></p>
         <div class="main-content split-view">
             <div class="prompter-panel" id="prompterPanel">
                 <div class="voice-reading-guide" aria-hidden="true"></div>

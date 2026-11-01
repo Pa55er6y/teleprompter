@@ -1,4 +1,5 @@
 import { VoiceFollower } from './voice-follow.mjs';
+import { initializeDisplayControls } from './display-controls.mjs';
 
 let voiceFollower = null;
 
@@ -106,6 +107,7 @@ function init() {
         onStart: stopAutoScroll,
         onChange: updatePlaybackControls
     });
+    initializeDisplayControls(() => voiceFollower.refreshLayout());
 
     // Keyboard shortcuts
     document.addEventListener('keydown', handleKeyboard);

@@ -1,10 +1,11 @@
 // Service Worker for offline support and caching
-const CACHE_NAME = 'teleprompter-v3';
+const CACHE_NAME = 'teleprompter-v4';
 const urlsToCache = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
+  '/display-controls.mjs',
   '/voice-follow.mjs',
   '/voice-matcher.mjs',
   '/manifest.json'
