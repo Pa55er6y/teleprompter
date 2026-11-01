@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test voice-following scrolling with your own speaking pace.">
+    <link rel="stylesheet" href="voice-test.css">
+    <title>Voice test · Teleprompter</title>
+</head>
+<body>
+    <header>
+        <div class="heading">
+            <a href="index.html">← Teleprompter</a>
+            <h1>Voice test <span>Prototype</span></h1>
+        </div>
+        <div class="controls" aria-label="Voice controls">
+            <button type="button" id="startBtn" class="primary">Follow my voice</button>
+            <button type="button" id="stopBtn" disabled>Stop listening</button>
+            <button type="button" id="restartBtn">Back to start</button>
+            <label>English
+                <select id="language">
+                    <option value="en-AU">Australia</option>
+                    <option value="en-GB">UK</option>
+                    <option value="en-US">US</option>
+                </select>
+            </label>
+            <label>Text size <input type="range" id="textSize" min="28" max="96" value="48"></label>
+            <button type="button" id="mirrorBtn" aria-pressed="false">Mirror</button>
+        </div>
+        <p id="status" role="status">Ready. Tap Follow my voice, allow the microphone, then read the sample aloud.</p>
+    </header>
+
+    <main>
+        <section class="reading-pane" id="readingPane" aria-label="Sample script">
+            <div class="reading-guide" aria-hidden="true"></div>
+            <div class="script-scroll" id="scriptScroll">
+                <div class="script-text" id="scriptText"></div>
+            </div>
+        </section>
+        <aside aria-label="Test information">
+            <details open>
+                <summary>What the iPad hears</summary>
+                <p id="heard">No speech received yet.</p>
+                <p id="matched">No phrase matched yet.</p>
+            </details>
+            <details>
+                <summary>How to test</summary>
+                <ol>
+                    <li>Read the first question, then pause for five seconds. Scrolling should hold.</li>
+                    <li>Read the second sentence slowly, then speed up. Your current words should stay visible.</li>
+                    <li>Say “I am taking a quick break from the script.” The position should hold until you return to the script.</li>
+                    <li>Finish the paragraph, including “hashing”, “salts”, and “peppers”. Check the recognised words below the script.</li>
+                    <li>If it loses your place, stop, tap the word you want to read next, and tap Follow my voice again.</li>
+                    <li>Repeat in your usual teleprompter position, then try a longer script for five minutes.</li>
+                </ol>
+                <p>Use Safari on the iPad over HTTPS. If no speech arrives, check microphone permission and that Siri is enabled. Start in Safari before testing a Home Screen shortcut.</p>
+            </details>
+            <details>
+                <summary>Use another script</summary>
+                <form id="scriptForm">
+                    <label for="scriptInput">Test script</label>
+                    <textarea id="scriptInput" rows="7">Have you ever wondered how passwords are stored on the server? In this video, we will explore password storage mechanisms, from the simplest design to more secure approaches used in modern web systems. By the end, you will be able to explain how hashing, salts, slow password hashing, and peppers reduce the damage when a password database is leaked.</textarea>
+                    <button type="submit">Use this script</button>
+                </form>
+            </details>
+            <p class="note">Tap a word to set your reading position. This page uses a separate test script and does not replace your saved teleprompter text.</p>
+            <p class="note">Speech recognition may send audio to your browser’s speech service. This test does not save recordings or transcripts.</p>
+        </aside>
+    </main>
+    <script type="module" src="voice-test.mjs"></script>
+</body>
+</html>

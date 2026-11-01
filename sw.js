@@ -1,5 +1,5 @@
 // Service Worker for offline support and caching
-const CACHE_NAME = 'teleprompter-v1';
+const CACHE_NAME = 'teleprompter-v2';
 const urlsToCache = [
   '/',
   '/index.html',
